@@ -1,6 +1,23 @@
 {
     "name": "react-chat-app",
     "version": "1.0.0",
+    "description": " Reactjs Peer to Peer chat application",
     "author": "Prince Kumar ( prince18pat@gmail.com )",
-    "liscense": "MIT"
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": {
+        "test": ""
+    },
+    "keywords": [
+        "webrtc",
+        "nodejs",
+        "react",
+        "javascript",
+        "awesome"
+    ],
+    "dependencies": {
+        "express": "^4.8.4",
+        "peer": "^0.2.4",
+        "socket.io": "^1.0.6"
+    }
 }
