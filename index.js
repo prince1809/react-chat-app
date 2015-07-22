@@ -4,13 +4,13 @@ var PeerServer = require('peer').PeerServer,
     app = express(),
     port = process.env.PORT || 3001;
 
-app.use(express.static(__dirname + './public'));
+app.use(express.static(__dirname + '/public'));
 
 var expressServer = app.listen(port);
 
 var io = require('socket.io').listen(expressServer);
 
-console.log('Listening on port',port);
+console.log('Listening on port',port,__dirname + '/public');
 
 var peerServer = new PeerServer({
     port : 9000,
