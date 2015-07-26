@@ -9,6 +9,9 @@ var ChatBox = React.createClass({
     },
 
     componentDidMount: function(){
+      this.chatProxy = this.props.chatProxy;
+      this.chatProxy.connect(this.props.username);
+      
 
     },
     render: function(){
@@ -17,8 +20,12 @@ var ChatBox = React.createClass({
           <div className="chat-header ui-widget-header">React p2p Chat</div>
           <div className="chat-content-wrapper row">
             <MessagesList ref="MessagesList"></MessagesList>
-
+            <UsersList users={this.state.users} ref="usersList"></UsersList>
           </div>
+          <MessageInput
+            ref="MessageInput"
+            messageHandler={this.messageHandler}>
+          </MessageInput>
         </div>
       )
     }

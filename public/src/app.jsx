@@ -10,6 +10,7 @@ $(function () {
 
   function initChat(container, username) {
     var proxy = new ChatProxy();
+    
     React.renderComponent(<ChatBox chatProxy={proxy}
       username={username}></ChatBox>, container);
   }
