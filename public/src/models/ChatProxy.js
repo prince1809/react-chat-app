@@ -15,7 +15,23 @@ ChatProxy.prototype.onMessage = function(cb){
 ChatProxy.prototype.getUsername = function(){
   return this._username;
 };
+
+ChatProxy.prototype.setUsername = function(username){
+  this._username = username;
+};
+
 ChatProxy.prototype.connect = function(username){
   var self = this;
-  console.log(username);
+  this.setUsername(username);
+
+  this.socket = io();
+  this.socket.on('connect',function(){
+    self.socket.on(Topics.USER_CONNECTED, function(userId){
+      if(userId ===self.getUsername()){
+        console.log('Welcome  ' +username);
+        return;
+      }
+    })
+  })
+
 }
