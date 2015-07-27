@@ -20,6 +20,23 @@ ChatProxy.prototype.setUsername = function(username){
   this._username = username;
 };
 
+ChatProxy.prototype.onUserConnected = function(cb){
+  this.addListener(Topics.USER_CONNECTED,cb);
+};
+
+ChatProxy.prototype.onUserDisconnected = function(cb){
+    this.addListener(Topics.USER_DISCONNECTED,cb);
+};
+
+ChatProxy.prototype.send = function(user,message){
+  this._peers[user].send(message);
+};
+ChatProxy.prototype.broadcast = function(msg){
+  for(var peer in this._peers){
+    this.send(peer,msg);
+  }
+};
+
 ChatProxy.prototype.connect = function(username){
   var self = this;
   this.setUsername(username);

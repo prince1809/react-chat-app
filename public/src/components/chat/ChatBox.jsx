@@ -7,13 +7,41 @@ var ChatBox = React.createClass({
     getInitialState: function(){
         return { users: [] };
     },
-
+    addMessage: function(message){
+      if(message){
+        message.date = new Date();
+        this.refs.MessagesList.addMessage(message);
+      }
+    },
+    userConnected: function(user){
+      var users = this.state.users;
+      users.push(user);
+      this.setState({
+        users: users
+      });
+    },
+    userDisconnected: function(user){
+      var users = this.state.users;
+      users.splice(users.indexof(user),1);
+      this.setState({
+        users: users
+      });
+    },
     componentDidMount: function(){
       this.chatProxy = this.props.chatProxy;
       this.chatProxy.connect(this.props.username);
       this.chatProxy.onMessage(this.addMessage.bind(this));
       this.chatProxy.onUserConnected(this.userConnected.bind(this));
       this.chatProxy.onUserDisconnected(this.userDisconnected.bind(this));
+    },
+    messageHandler: function(message){
+      message = this.refs.MessageInput.getDOMNode().value;
+      console.log(message);
+      this.addMessage({
+        content: message,
+        author: this.chatProxy.getUsername()
+      });
+      this.chatProxy.broadcast(message);
     },
     render: function(){
       return(

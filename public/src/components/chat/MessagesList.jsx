@@ -9,11 +9,18 @@ var MessagesList = React.createClass({
       messages: []
   };
 },
+addMessage: function(message){
+  var messages = this.state.messages;
+  var container = this.refs.messageContainer.getDOMNode();
+  messages.push(message);
+  this.setState({ messages: messages});
+  console.log(messages);
+},
 render: function(){
   var messages;
   messages = this.state.messages.map(function(m){
     return (
-      <ChatMessages message={'This is a custom mesage'}></ChatMessages>
+      <ChatMessage message={m}></ChatMessage>
     );
   });
 

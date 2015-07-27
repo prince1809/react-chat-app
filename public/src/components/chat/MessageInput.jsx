@@ -10,10 +10,8 @@ var MessageInput = React.createClass({
   },
   keyHandler: function(event){
     var msg = this.state.message.trim();
-    console.log(msg);
     if(event.keyCode === 13  && msg.length){
       this.props.messageHandler(msg);
-      console.log(msg);
       this.setState({ message: ''});
     }
   },
