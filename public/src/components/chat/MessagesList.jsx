@@ -14,7 +14,6 @@ addMessage: function(message){
   var container = this.refs.messageContainer.getDOMNode();
   messages.push(message);
   this.setState({ messages: messages});
-  console.log(messages);
 },
 render: function(){
   var messages;

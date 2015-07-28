@@ -36,7 +36,6 @@ var ChatBox = React.createClass({
     },
     messageHandler: function(message){
       message = this.refs.MessageInput.getDOMNode().value;
-      console.log(message);
       this.addMessage({
         content: message,
         author: this.chatProxy.getUsername()
@@ -56,6 +55,6 @@ var ChatBox = React.createClass({
             messageHandler={this.messageHandler}>
           </MessageInput>
         </div>
-      )
+      );
     }
 });

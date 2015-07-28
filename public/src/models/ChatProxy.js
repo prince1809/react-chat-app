@@ -45,10 +45,55 @@ ChatProxy.prototype.connect = function(username){
   this.socket.on('connect',function(){
     self.socket.on(Topics.USER_CONNECTED, function(userId){
       if(userId ===self.getUsername()){
-        console.log('Welcome  ' +username);
         return;
       }
-    })
+      self._disconnectFrom(userId);
+      self.emit(Topics.USER_DISCONNECTED,userId);
+      console.log('User Disconnected', userId);
+    });
+    self.socket.on(Topics.USER_DISCONNECTED, function (userId){
+      if(userId === self.getUsername()){
+        return;
+      }
+      self._disconnectFrom(userId);
+      self.emit(Topics.USER_CONNECTED,userId);
+      console.log('User disconnected', userId);
+    });
+  });
+  console.log(' Connecting with username', username);
+
+  this.peer = new Peer(username, {
+    host: location.hostname,
+    port: 9000,
+    path: '/chat'
+  });
+
+  this.peer.on('open', function(userId){
+    self.setUsername(userId);
   })
 
+  this.peer.on('connection',function(conn){
+    self._registerPeer(conn.peer,conn);
+    self.emit(Topics.USER_CONNECTED,conn.peer);
+  });
+};
+
+ChatProxy.prototype._connectTo = function(username){
+    var conn = this.peer.connect(username);
+    conn.on('open',function(){
+      this._registerPeer(username,conn);
+    }.bind(this));
+};
+
+ChatProxy.prototype._registerPeer = function(username, conn){
+  console.log('Registering', username);
+  this._peers[username] = conn;
+  conn.on('data',function(msg){
+    console.log('message received',msg);
+    this.emit(Topics.USER_MESSAGE,{content: msg, author: username});
+  }.bind(this));
+};
+
+ChatProxy.prototype._disconnectFrom = function(username){
+  delete this._peers[username];
 }

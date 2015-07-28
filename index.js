@@ -18,11 +18,11 @@ var peerServer = new PeerServer({
 });
 
 peerServer.on('connection',function(id){
-    id.emit(Topics.USER_CONNECTED, id);
+    io.emit(Topics.USER_CONNECTED, id);
     console.log('User connected with #',id);
 });
 
 peerServer.on('diconnected',function(id){
-    id.emit(Topics.USER_DISCONNECTED,id);
+    io.emit(Topics.USER_DISCONNECTED,id);
     console.log('User disconnected with #',id);
 });
